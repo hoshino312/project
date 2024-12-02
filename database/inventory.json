@@ -1,0 +1,22 @@
+{
+    "products": [
+        {
+            "productId": "p001",
+            "productName": "Milk",
+            "price": 1.50,
+            "stock": 10
+        },
+        {
+            "productId": "p002",
+            "productName": "Bread",
+            "price": 2.00,
+            "stock": 4
+        },
+        {
+            "productId": "p003",
+            "productName": "Eggs",
+            "price": 3.00,
+            "stock": 20
+        }
+    ]
+}
