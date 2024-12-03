@@ -36,7 +36,7 @@ public class Bill {
         JSONObject billData = new JSONObject();
         billData.put("billId", billId);
         billData.put("employeeId", employeeId);
-
+    
         JSONArray productsData = new JSONArray();
         for (Product product : productList) {
             JSONObject productData = new JSONObject();
@@ -46,27 +46,45 @@ public class Bill {
             productData.put("price", product.getPrice());
             productsData.add(productData);
         }
-
+    
         billData.put("products", productsData);
         billData.put("totalAmount", totalAmount);
-
+    
+        // Load database
         JSONObject database = DatabaseHelper.loadDatabase("bills.json");
-        JSONObject billsByDate = (JSONObject) database.get("bills");
-        if (billsByDate == null) {
-            billsByDate = new JSONObject();
+        if (database == null) {
+            database = new JSONObject();
         }
-
+    
+        // Ensure "bills" is a JSONObject
+        Object billsObject = database.get("bills");
+        JSONObject billsByDate;
+        if (billsObject instanceof JSONObject) {
+            billsByDate = (JSONObject) billsObject;
+        } else {
+            billsByDate = new JSONObject(); // Initialize if it's not a JSONObject
+        }
+    
+        // Ensure daily bills exist for the current date
         JSONArray dailyBills = (JSONArray) billsByDate.get(date);
         if (dailyBills == null) {
             dailyBills = new JSONArray();
         }
+    
 
         dailyBills.add(billData);
+    
         billsByDate.put(date, dailyBills);
         database.put("bills", billsByDate);
+    
 
-        DatabaseHelper.saveDatabase("bills.json", database);
-
-        System.out.println("Bill generated successfully! Total: $" + totalAmount);
+        try {
+            DatabaseHelper.saveDatabase("bills.json", database);
+            System.out.println("Bill generated successfully! Total: $" + totalAmount);
+        } catch (Exception e) {
+            System.out.println("Failed to save bill: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
+    
 }

@@ -76,4 +76,29 @@ public class Inventory {
     public List<Product> getInventoryList() { 
         return inventoryList;
     }
-}
+
+    public void addProduct(Product product, List<Product> products) {
+        for (Product existingProduct : products) {
+            if (existingProduct.getProductId().equals(product.getProductId())) {
+                System.out.println("Product with this ID already exists.");
+              return;
+            }
+        }
+        products.add(product);
+        System.out.println("Product added successfully: " + product.getProductInfo());
+    }
+
+
+    public void removeProduct(String productId, List<Product> products) {
+        for (Product existingProduct : products) {
+            if (existingProduct.getProductId().equals(productId)) {
+                products.remove(existingProduct);
+               System.out.println("Product removed successfully.");
+                return;
+            }
+        }
+        System.out.println("Product with this ID does not exist.");
+    }
+}    
+
+ 

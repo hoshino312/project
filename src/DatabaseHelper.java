@@ -1,6 +1,7 @@
 import org.json.simple.*;
 import org.json.simple.parser.*;
-
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.FileReader;
 import java.io.FileWriter;
 
@@ -25,8 +26,6 @@ public class DatabaseHelper {
         }
     }
 
-
-
     public static JSONObject loadDatabase(String fileName) {
         try (FileReader reader = new FileReader("database/" + fileName)) {
             return (JSONObject) new JSONParser().parse(reader);
@@ -35,12 +34,14 @@ public class DatabaseHelper {
         }
     }
 
+
     public static void saveDatabase(String fileName, JSONObject database) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (FileWriter writer = new FileWriter("database/" + fileName)) {
-            writer.write(database.toJSONString());
-            writer.flush();
+            writer.write(gson.toJson(database));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }

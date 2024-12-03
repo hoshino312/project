@@ -29,12 +29,11 @@ public class Admin extends Account {
         }
     }
 
-    public void editAccount(String id, String newUsername, String newPassword, String newRole) {
+    public void editAccount(String id, String newPassword, String newRole) {
         JSONObject users = DatabaseHelper.loadDatabase("users.json");
         for (Object key : users.keySet()) {
             JSONObject user = (JSONObject) users.get(key);
             if (user.get("id").equals(id)) {
-                user.put("username", newUsername);
                 user.put("password", newPassword);
                 user.put("role", newRole);
                 DatabaseHelper.saveDatabase("users.json", users);

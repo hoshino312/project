@@ -112,4 +112,27 @@ public class Manager extends Employee {
             System.out.println("Invalid date format. Please use yyyy-MM-dd.");
         }
     }
+
+    public void addProductToInventory(Inventory inventory) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Product ID: ");
+        String productId = scanner.nextLine();
+        System.out.print("Enter Product Name: ");
+        String productName = scanner.nextLine();
+        System.out.print("Enter Product Price: ");
+        double productPrice = Double.parseDouble(scanner.nextLine());
+        System.out.print("Enter Product Stock: ");
+        int productStock = Integer.parseInt(scanner.nextLine());
+
+        Product newProduct = new Product(productId, productName, productPrice, productStock);
+        inventory.addProduct(newProduct, inventory.getInventoryList());
+    }
+
+    public void removeProductFromInventory(Inventory inventory) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Product ID to remove: ");
+        String productId = scanner.nextLine();
+
+        inventory.removeProduct(productId, inventory.getInventoryList());
+    }
 }

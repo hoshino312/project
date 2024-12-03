@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
-import org.json.simple.JSONObject;
+import org.json.simple.*;
 
 
 public class Main {
@@ -22,6 +22,7 @@ public class Main {
                     break;
                 case 2:
                     System.out.println("Exiting the system. Goodbye!");
+                    scanner.close();
                     return;
                 default:
                     System.out.println("Invalid choice. Try again.");
@@ -69,9 +70,7 @@ public class Main {
         }
     }
 
-    private static void showAdminMenu(Admin admin) {
-        Scanner scanner = new Scanner(System.in);
-    
+    private static void showAdminMenu(Admin admin) {    
         while (true) {
             System.out.println("\n--- Admin Menu ---");
             System.out.println("1. Create Account");
@@ -106,13 +105,11 @@ public class Main {
                 case 3:
                     System.out.print("Enter User ID to edit: ");
                     id = scanner.nextLine();
-                    System.out.print("Enter new Username: ");
-                    String newUsername = scanner.nextLine();
                     System.out.print("Enter new Password: ");
                     String newPassword = scanner.nextLine();
                     System.out.print("Enter new Role: ");
                     newRole = scanner.nextLine();
-                    admin.editAccount(id, newUsername, newPassword, newRole);
+                    admin.editAccount(id, newPassword, newRole);
                     break;
     
                 case 4:
@@ -136,7 +133,6 @@ public class Main {
     
                 case 6:
                     System.out.println("Logging out...");
-                    scanner.close();
                     return;
     
                 default:
@@ -147,7 +143,6 @@ public class Main {
         
 
     private static void showManagerMenu(Manager manager) {
-        Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("\n--- Manager Menu ---");
             System.out.println("1. Monitor Inventory");
@@ -155,9 +150,11 @@ public class Main {
             System.out.println("3. Replenish Item");
             System.out.println("4. Review Performance");
             System.out.println("5. Access Sales Reports");
-            System.out.println("6. Logout");
+            System.out.println("6. View Personal Information");
+            System.out.println("7. Update Personal Information");
+            System.out.println("8. Logout");
     
-            int choice = Integer.parseInt(scanner.nextLine());
+            int choice = getUserChoice();
             switch (choice) {
                 case 1:
                     manager.monitorInventory();
@@ -195,8 +192,25 @@ public class Main {
                     manager.accessSalesReports(reportProductId, reportPeriod, reportStartDate);
                     break;
                 case 6:
+                    // View personal information
+                    System.out.println("\n--- Personal Information ---");
+                    System.out.println("Name: " + manager.name);
+                    System.out.println("Phone: " + manager.phone);
+                    break;
+    
+                case 7:
+                    // Update personal information
+                    System.out.print("Enter new name: ");
+                    String newName = scanner.nextLine();
+                    System.out.print("Enter new phone number: ");
+                    String newPhone = scanner.nextLine();
+    
+                    manager.editPersonalInformation(newName, newPhone);
+                    System.out.println("Personal information updated successfully.");
+                    break;
+
+                case 8:
                     System.out.println("Logging out...");
-                    scanner.close();
                     return;
                 default:
                     System.out.println("Invalid choice. Try again.");
@@ -206,48 +220,81 @@ public class Main {
     
 
     public static void showCashierMenu(Cashier cashier) {
-        Scanner scanner = new Scanner(System.in);
         Inventory inventory = new Inventory();
         List<Product> cart = new ArrayList<>();
-
+    
         while (true) {
             System.out.println("\n--- Cashier Menu ---");
-            System.out.println("1. Scan Product");
-            System.out.println("2. Logout");
+            System.out.println("1. Scan Products");
+            System.out.println("3. View Personal Information");
+            System.out.println("4. Update Personal Information");
+            System.out.println("5. Logout");
             int choice = getUserChoice();
-
+    
             switch (choice) {
                 case 1:
-                    System.out.print("Enter Product ID: ");
-                    String productId = scanner.nextLine();
-                    System.out.print("Enter Quantity: ");
-                    int quantity = Integer.parseInt(scanner.nextLine());
-                    cashier.scanProduct(cart, productId, quantity, inventory);
-
-                    double totalAmount = cart.stream().mapToDouble(p -> p.getPrice() * p.getStock()).sum();
+                    // Continuous scanning of products
+                    System.out.println("Start scanning products. Type 'done' when finished.");
+                    cashier.scanProducts(cart, inventory);
+                    break;
+    
+                case 2:
+            
+                    // Calculate total amount
+                    if (cart.isEmpty()) {
+                        System.out.println("No products in the cart. Please scan products first.");
+                        break;
+                    }
+    
+                    double totalAmount = cart.stream()
+                                             .mapToDouble(p -> p.getPrice() * p.getStock())
+                                             .sum();
                     System.out.println("Total Amount: $" + totalAmount);
+    
+                    // Process payment
                     System.out.print("Enter Payment Method (cash/credit/debit/digital wallet): ");
                     String paymentMethod = scanner.nextLine();
                     if (cashier.processPayment(paymentMethod, totalAmount)) {
+                        // Update inventory and generate bill
                         cart.forEach(product -> inventory.updateInventory(product.getProductId(), product.getStock()));
                         new Bill("BILL-" + System.currentTimeMillis(), cashier.id, cart).generateBill();
-                        cart.clear();
+                        cart.clear(); // Clear cart after successful checkout
                     } else {
-                        System.out.println("Payment failed. Returning to menu...");
+                        System.out.println("Payment failed. Returning to menu and clear cart");
+                        cart.clear();
                     }
                     break;
+    
 
                 case 3:
-                    System.out.println("Logging out...");
-                    scanner.close();
-                    return;
+                // View personal information
+                System.out.println("\n--- Personal Information ---");
+                System.out.println("Name: " + cashier.name);
+                System.out.println("Phone: " + cashier.phone);
+                break;
 
+                case 4:
+                // Update personal information
+                System.out.print("Enter new name: ");
+                String newName = scanner.nextLine();
+                System.out.print("Enter new phone number: ");
+                String newPhone = scanner.nextLine();
+
+                cashier.editPersonalInformation(newName, newPhone);
+                System.out.println("Personal information updated successfully.");
+                break;
+                case 5:
+                    // Logout
+                    System.out.println("Logging out...");
+                    return;
+    
                 default:
+                    // Invalid choice handling
                     System.out.println("Invalid choice. Try again.");
             }
         }
     }
-
+    
     private static int getUserChoice() {
         System.out.print("Enter your choice: ");
         try {
