@@ -226,6 +226,7 @@ public class Main {
         while (true) {
             System.out.println("\n--- Cashier Menu ---");
             System.out.println("1. Scan Products");
+            System.err.println("2. Process Payment");
             System.out.println("3. View Personal Information");
             System.out.println("4. Update Personal Information");
             System.out.println("5. Logout");
