@@ -81,30 +81,24 @@ public class Main {
             System.out.println("6. Logout");
     
             int choice = getUserChoice();
-            switch (choice) {
-                case 1:
-                    System.out.print("Enter ID: ");
-                    String id = scanner.nextLine();
-                    System.out.print("Enter Username: ");
-                    String username = scanner.nextLine();
-                    System.out.print("Enter Password: ");
-                    String password = scanner.nextLine();
-                    System.out.print("Enter Role: ");
-                    String role = scanner.nextLine();
-                    admin.createAccount(id, username, password, role);
-                    break;
-    
-                case 2:
-                    System.out.print("Enter User ID to update role: ");
-                    String userId = scanner.nextLine();
-                    System.out.print("Enter new Role: ");
-                    String newRole = scanner.nextLine();
-                    admin.assignRole(userId, newRole);
-                    break;
-    
-                case 3:
-                    System.out.print("Enter User ID to edit: ");
-                    id = scanner.nextLine();
+            String id;
+                switch (choice) {
+                    case 1:
+                        System.out.print("Enter Role: ");
+                        String role = scanner.nextLine();
+                        admin.createAccount(role);
+                        break;
+                    case 2:
+                        System.out.print("Enter User ID to update role: ");
+                        String userId = scanner.nextLine();
+                        System.out.print("Enter new Role: ");
+                        String newRole = scanner.nextLine();
+                        admin.assignRole(userId, newRole);
+                        break;
+                
+                    case 3:
+                        System.out.print("Enter User ID to edit: ");
+                        id = scanner.nextLine();
                     System.out.print("Enter new Password: ");
                     String newPassword = scanner.nextLine();
                     System.out.print("Enter new Role: ");
@@ -141,18 +135,44 @@ public class Main {
         }
     }
         
-
     private static void showManagerMenu(Manager manager) {
         while (true) {
-            System.out.println("\n--- Manager Menu ---");
+            System.out.println("\n--- Manager Main Menu ---");
+            System.out.println("1. Inventory Management");
+            System.out.println("2. Reports and Performance");
+            System.out.println("3. Personal Information");
+            System.out.println("4. Logout");
+    
+            int choice = getUserChoice();
+            switch (choice) {
+                case 1:
+                    showInventoryMenu(manager);
+                    break;
+                case 2:
+                    showReportsMenu(manager);
+                    break;
+                case 3:
+                    showPersonalInfoMenu(manager);
+                    break;
+                case 4:
+                    System.out.println("Logging out...");
+                    return;
+                default:
+                    System.out.println("Invalid choice. Try again.");
+            }
+        }
+    }
+    
+    private static void showInventoryMenu(Manager manager) {
+        Inventory inventory = new Inventory();
+        while (true) {
+            System.out.println("\n--- Inventory Management Menu ---");
             System.out.println("1. Monitor Inventory");
             System.out.println("2. Filter Low Stock");
             System.out.println("3. Replenish Item");
-            System.out.println("4. Review Performance");
-            System.out.println("5. Access Sales Reports");
-            System.out.println("6. View Personal Information");
-            System.out.println("7. Update Personal Information");
-            System.out.println("8. Logout");
+            System.out.println("4. Add Product to Inventory");
+            System.out.println("5. Remove Product from Inventory");
+            System.out.println("6. Back to Main Menu");
     
             int choice = getUserChoice();
             switch (choice) {
@@ -174,15 +194,29 @@ public class Main {
                     manager.replenishItem(productId, quantity);
                     break;
                 case 4:
-                    System.out.print("Enter Employee ID: ");
-                    String employeeId = scanner.nextLine();
-                    System.out.print("Enter Period (1-day/7-day): ");
-                    String performancePeriod = scanner.nextLine();
-                    System.out.print("Enter Start Date (yyyy-MM-dd): ");
-                    String performanceStartDate = scanner.nextLine();
-                    manager.reviewPerformance(employeeId, performancePeriod, performanceStartDate);
+                    manager.addProductToInventory(inventory);
                     break;
                 case 5:
+                    manager.removeProductFromInventory(inventory);
+                    break;
+                    case 6:
+                    return;
+                default:
+                    System.out.println("Invalid choice. Try again.");
+            }
+        }
+    }
+    
+    private static void showReportsMenu(Manager manager) {
+        while (true) {
+            System.out.println("\n--- Reports and Performance Menu ---");
+            System.out.println("1. Access Sales Reports");
+            System.out.println("2. Review Employee Performance");
+            System.out.println("3. Back to Main Menu");
+    
+            int choice = getUserChoice();
+            switch (choice) {
+                case 1:
                     System.out.print("Enter Product ID (or leave blank for all): ");
                     String reportProductId = scanner.nextLine();
                     System.out.print("Enter Period (1-day/7-day): ");
@@ -191,34 +225,51 @@ public class Main {
                     String reportStartDate = scanner.nextLine();
                     manager.accessSalesReports(reportProductId, reportPeriod, reportStartDate);
                     break;
-                case 6:
-                    // View personal information
-                    System.out.println("\n--- Personal Information ---");
-                    System.out.println("Name: " + manager.name);
-                    System.out.println("Phone: " + manager.phone);
+                case 2:
+                    System.out.print("Enter Employee ID: ");
+                    String employeeId = scanner.nextLine();
+                    System.out.print("Enter Period (1-day/7-day): ");
+                    String performancePeriod = scanner.nextLine();
+                    System.out.print("Enter Start Date (yyyy-MM-dd): ");
+                    String performanceStartDate = scanner.nextLine();
+                    manager.reviewPerformance(employeeId, performancePeriod, performanceStartDate);
                     break;
-    
-                case 7:
-                    // Update personal information
-                    System.out.print("Enter new name: ");
-                    String newName = scanner.nextLine();
-                    System.out.print("Enter new phone number: ");
-                    String newPhone = scanner.nextLine();
-    
-                    manager.editPersonalInformation(newName, newPhone);
-                    System.out.println("Personal information updated successfully.");
-                    break;
-
-                case 8:
-                    System.out.println("Logging out...");
+                case 3:
                     return;
                 default:
                     System.out.println("Invalid choice. Try again.");
             }
         }
     }
-    
 
+    private static void showPersonalInfoMenu(Manager manager) {
+        while (true) {
+            System.out.println("\n--- Personal Information Menu ---");
+            System.out.println("1. View Personal Information");
+            System.out.println("2. Update Personal Information");
+            System.out.println("3. Back to Main Menu");
+    
+            int choice = getUserChoice();
+            switch (choice) {
+                case 1:
+                    manager.viewPersonalInformation();
+                    break;
+                case 2:
+                    System.out.print("Enter new name: ");
+                    String newName = scanner.nextLine();
+                    System.out.print("Enter new phone number: ");
+                    String newPhone = scanner.nextLine();
+                    manager.editPersonalInformation(newName, newPhone);
+                    System.out.println("Personal information updated successfully.");
+                    break;
+                case 3:
+                    return;
+                default:
+                    System.out.println("Invalid choice. Try again.");
+            }
+        }
+    }                
+    
     public static void showCashierMenu(Cashier cashier) {
         Inventory inventory = new Inventory();
         List<Product> cart = new ArrayList<>();
@@ -268,10 +319,7 @@ public class Main {
     
 
                 case 3:
-                // View personal information
-                System.out.println("\n--- Personal Information ---");
-                System.out.println("Name: " + cashier.name);
-                System.out.println("Phone: " + cashier.phone);
+                cashier.viewPersonalInformation();
                 break;
 
                 case 4:

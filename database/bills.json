@@ -1,5 +1,58 @@
 {
   "bills": {
+    "2024-12-07": [
+      {
+        "totalAmount": 3.0,
+        "billId": "BILL-1733559932548",
+        "employeeId": "1",
+        "products": [
+          {
+            "quantity": 2,
+            "productId": "p001",
+            "price": 1.5,
+            "productName": "Milk"
+          }
+        ]
+      },
+      {
+        "totalAmount": 3.5,
+        "billId": "BILL-1733560358438",
+        "employeeId": "1",
+        "products": [
+          {
+            "quantity": 1,
+            "productId": "p001",
+            "price": 1.5,
+            "productName": "Milk"
+          },
+          {
+            "quantity": 1,
+            "productId": "p002",
+            "price": 2.0,
+            "productName": "Bread"
+          }
+        ]
+      },
+      {
+        "totalAmount": 4.5,
+        "billId": "BILL-1733560541036",
+        "employeeId": "1",
+        "products": [
+          {
+            "quantity": 1,
+            "productId": "p001",
+            "price": 1.5,
+            "productName": "Milk"
+          },
+          {
+            "quantity": 1,
+            "productId": "p003",
+            "price": 3.0,
+            "productName": "Eggs"
+          }
+        ]
+      }
+    ],
     "2024-12-04": [
       {
         "totalAmount": 6.0,

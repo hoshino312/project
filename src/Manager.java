@@ -38,6 +38,7 @@ public class Manager extends Employee {
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         double totalSales = 0;
+        int totalQuantity = 0;
         boolean productSpecific = !productId.isEmpty();
 
         try {
@@ -55,7 +56,11 @@ public class Manager extends Employee {
                         for (Object productObj : products) {
                             JSONObject product = (JSONObject) productObj;
                             if (!productSpecific || product.get("productId").equals(productId)) {
-                                totalSales += (double) product.get("price") * ((Long) product.get("quantity")).intValue();
+                                double price = (double) product.get("price");
+                                int quantity = ((Long) product.get("quantity")).intValue();
+
+                                totalSales += price * quantity; // Add to total sales
+                                totalQuantity += quantity; // Add to total quantity
                             }
                         }
                     }
@@ -66,6 +71,7 @@ public class Manager extends Employee {
             System.out.println("Sales Report:");
             System.out.println(productSpecific ? "Product ID: " + productId : "Overall Sales");
             System.out.println("Period: " + period + " from " + startDate);
+            System.out.println("Total Quantity Sold: " + totalQuantity);
             System.out.println("Total Sales: $" + totalSales);
 
         } catch (ParseException e) {

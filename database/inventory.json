@@ -3,20 +3,20 @@
     {
       "productId": "p001",
       "price": 1.5,
-      "stock": 6,
+      "stock": 2,
       "productName": "Milk"
-    },
-    {
-      "productId": "p002",
-      "price": 2.0,
-      "stock": 1,
-      "productName": "Bread"
     },
     {
       "productId": "p003",
       "price": 3.0,
-      "stock": 17,
+      "stock": 16,
       "productName": "Eggs"
+    },
+    {
+      "productId": "p002",
+      "price": 3.0,
+      "stock": 12,
+      "productName": "Egg"
     }
   ]
 }

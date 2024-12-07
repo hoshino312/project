@@ -81,19 +81,20 @@ public class Inventory {
         for (Product existingProduct : products) {
             if (existingProduct.getProductId().equals(product.getProductId())) {
                 System.out.println("Product with this ID already exists.");
-              return;
+                return;
             }
         }
         products.add(product);
         System.out.println("Product added successfully: " + product.getProductInfo());
+        saveInventory(); // Save after adding product
     }
-
-
+    
     public void removeProduct(String productId, List<Product> products) {
         for (Product existingProduct : products) {
             if (existingProduct.getProductId().equals(productId)) {
                 products.remove(existingProduct);
-               System.out.println("Product removed successfully.");
+                saveInventory();
+                System.out.println("Product removed successfully.");
                 return;
             }
         }

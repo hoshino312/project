@@ -1,1 +1,27 @@
-{"quyen":{"password":"123","role":"manager","id":"123456"},"huyen":{"password":"111111","role":"cashier","id":"1"},"admin":{"password":"123456","role":"admin","id":"ADM-001"},"hoanganh":{"password":"222222","role":"cashier","id":"2"}}
+{
+  "quyen": {
+    "password": "123",
+    "role": "manager",
+    "id": "123456"
+  },
+  "huyen": {
+    "password": "111111",
+    "role": "cashier",
+    "id": "1"
+  },
+  "admin": {
+    "password": "123456",
+    "role": "admin",
+    "id": "ADM-001"
+  },
+  "hoanganh": {
+    "password": "222222",
+    "role": "cashier",
+    "id": "2"
+  },
+  "userU001": {
+    "password": "123456",
+    "role": "cash",
+    "id": "U001"
+  }
+}

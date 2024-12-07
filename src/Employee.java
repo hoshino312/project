@@ -3,6 +3,7 @@ import org.json.simple.JSONObject;
 public abstract class Employee extends Account {
     protected String name;
     protected String phone;
+    protected boolean isWorking;
 
     public Employee(String id, String username, String password, String role, String name, String phone) {
         super(id, username, password, role);
@@ -10,6 +11,15 @@ public abstract class Employee extends Account {
         this.phone = phone;
     }
 
+    public void viewPersonalInformation(){
+        // View personal information
+        System.out.println("\n--- Personal Information ---");
+        System.out.println("Name: " + name);
+        System.out.println("Phone: " + phone);
+        System.out.println("ID: " + id);
+        System.out.println("Role: " + role);
+    }
+    
     public void editPersonalInformation(String newName, String newPhone) {
         this.name = newName;
         this.phone = newPhone;

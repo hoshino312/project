@@ -81,10 +81,45 @@ public class Bill {
         try {
             DatabaseHelper.saveDatabase("bills.json", database);
             System.out.println("Bill generated successfully! Total: $" + totalAmount);
+            printBill();
         } catch (Exception e) {
             System.out.println("Failed to save bill: " + e.getMessage());
             e.printStackTrace();
         }
     }
     
+
+
+    public void printBill() {
+
+        System.out.println("Bill ID: " + billId); 
+        System.out.println("Employee ID: " + employeeId); 
+        System.out.println("=".repeat(60)); 
+
+        // Table header
+        System.out.printf("%-20s %-15s %-10s %-15s%n",
+                "Product Name", "Price", "Quantity", "Total");
+        System.out.println("-".repeat(60)); 
+
+        int totalQuantity = 0; // Track total quantity sold
+
+        for (Product product : productList) {
+            totalQuantity += product.getStock(); // Add product quantity to total
+
+            // Print product details in a table row
+            System.out.printf("%-20s $%-14.2f %-10d $%-14.2f%n",
+                    product.getProductName(),
+                    product.getPrice(),
+                    product.getStock(),
+                    product.getPrice() * product.getStock());
+        }
+
+        System.out.println("=".repeat(60)); 
+        System.out.printf("%-20s %-15s %-10d $%-15s%n",
+                "TOTAL", "", totalQuantity, totalAmount);
+        System.out.println("=".repeat(60));
+    }
+
 }
+
+
